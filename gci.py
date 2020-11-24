@@ -16,9 +16,7 @@ class MyGCI():
 
         self.browser.submit_selected()
 
-    def getUsage(self, username, password):
-        self.signIn(username, password) # Sign in before proceeding
-
+    def scrapeResults(self, username, password):
         date_options = self.browser.open("https://my.gci.com/web/guest/exportusage?p_p_id=exportusage_WAR_gciportalwar_INSTANCE_B1MC3ECJxwvW&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_cacheability=cacheLevelPage&p_p_col_id=column-1&p_p_col_count=1&p_p_resource_id=getInitData")
         dateObj = json.loads(date_options.text)
 
@@ -38,3 +36,8 @@ class MyGCI():
             resp = resp + ("gci_%s %s \n" % (key, value))
 
         return resp
+
+    def getUsage(self, username, password):
+        self.signIn(username, password)
+
+        return self.scrapeResults(username, password)
